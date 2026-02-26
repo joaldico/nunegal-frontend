@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import type { Product } from "../../models/Product";
@@ -21,6 +21,7 @@ export const ProductList = () => {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
+  const deferredSearch = useDeferredValue(search);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export const ProductList = () => {
   }, []);
 
   const filteredProducts = useMemo(() => {
-    const searchTerm = search.toLowerCase().trim();
+    const searchTerm = deferredSearch.toLowerCase().trim();
     if (!searchTerm) return products;
 
     return products.filter(
@@ -47,7 +48,7 @@ export const ProductList = () => {
         product.brand.toLowerCase().includes(searchTerm) ||
         product.model.toLowerCase().includes(searchTerm),
     );
-  }, [products, search]);
+  }, [products, deferredSearch]);
 
   const handleProductClick = (id: string) => {
     navigate(`/product/${id}`);
