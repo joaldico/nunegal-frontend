@@ -2,14 +2,12 @@ import { ReportProblem } from "@mui/icons-material";
 import { Box, Container, Paper, Typography } from "@mui/material";
 import {
   isRouteErrorResponse,
-  useNavigate,
-  useRouteError,
+  useRouteError
 } from "react-router-dom";
 import { getStylesSx } from "./styles";
 
 export default function GeneralError() {
   const error = useRouteError();
-  const navigate = useNavigate();
   const styles = getStylesSx();
 
   let errorMessage = "Ha ocurrido un error inesperado.";
